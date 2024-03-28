@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import { createHashRouter, RouterProvider } from "react-router-dom";
-import "./index.css";
 
 import Idle from "./pages/Idle/Idle";
 import Listening from "./pages/Listening/Listening";
 import Response from "./pages/Response/Response";
+import { WebSocketProvider } from "./hooks/useWebSocket";
+import "./index.css";
 
 const router = createHashRouter([
   {
@@ -26,7 +27,9 @@ const router = createHashRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <WebSocketProvider socketUrl="ws://localhost:8001/">
+      <RouterProvider router={router} />
+    </WebSocketProvider>
   </React.StrictMode>
 );
 
