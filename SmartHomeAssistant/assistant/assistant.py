@@ -9,6 +9,8 @@ from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from langchain_community.tools import DuckDuckGoSearchRun
 from dotenv import load_dotenv
 from datetime import date
+from pocketsphinx import Decoder, Config
+
 
 # Load environment variables
 load_dotenv()
@@ -21,7 +23,11 @@ _search = DuckDuckGoSearchRun()
 
 # Initialize recognizer and Whisper model
 _recognizer = sr.Recognizer()
+_microphone = sr.Microphone(sample_rate=16000)
 _whisper_model = whisper.load_model("tiny")
+
+# Initialize pocketsphinx decoder
+_decoder = Decoder(Config(dict="./hotwords/hotwords.dict", keyphrase="hey rania"))
 
 # Configure LLM
 genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
@@ -34,6 +40,29 @@ def speech_to_text(recognizer: sr.Recognizer, audio: {}) -> str:
         return recognizer.recognize_whisper(audio)
     except sr.UnknownValueError:
         return "Could not understand audio"
+
+
+def listen_wake_word() -> bool:
+    if _microphone.stream is None:
+        _microphone.__enter__()
+
+    stream = _microphone.stream.pyaudio_stream
+
+    print('Say "Hey Rania"')
+    _decoder.start_utt()
+
+    while True:
+        buf = stream.read(1024, exception_on_overflow=False)
+
+        if buf:
+            _decoder.process_raw(buf, False, False)
+        else:
+            print(f'An error has occured. Buf is: {buf}')
+            return False
+
+        if _decoder.hyp():
+            _decoder.end_utt()
+            return True
 
 
 def listen() -> str:

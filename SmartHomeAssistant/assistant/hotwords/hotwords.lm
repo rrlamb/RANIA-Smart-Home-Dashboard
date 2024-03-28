@@ -1,0 +1,21 @@
+\data\
+ngram 1=4
+ngram 2=3
+ngram 3=2
+
+\1-grams:
+-0.9031 </s> -0.3010
+-0.9031 <s> -0.2430
+-0.9031 hey -0.2430
+-0.9031 rania -0.2430
+
+\2-grams:
+-0.3010 <s> hey 0.0000
+-0.3010 hey rania 0.0000
+-0.3010 rania </s> -0.3010
+
+\3-grams:
+-0.3010 <s> hey rania
+-0.3010 hey rania </s>
+
+\end\
