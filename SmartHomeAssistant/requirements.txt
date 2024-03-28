@@ -121,3 +121,5 @@ uvicorn==0.28.0
 vertexai==0.0.1
 wcwidth==0.2.13
 yarl==1.9.4
+
+websockets~=12.0

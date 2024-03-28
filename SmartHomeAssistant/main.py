@@ -46,10 +46,10 @@ conversation = llm_model.start_chat(history=[])
 #     # Transcribe the spoken words from the user
 #     result = whisper_model.transcribe("microphone.wav")
 #     print(f'Asking Bard: "{result["text"]}"')
-#
-#     # Generate response from LLM
-#     response = conversation.send_message(result["text"])
-#     print(conversation.last.text)
+
+    # Generate response from LLM
+    # response = conversation.send_message(result["text"])
+    # print(conversation.last.text)
 
 
 while True:
