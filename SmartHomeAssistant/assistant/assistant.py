@@ -4,7 +4,7 @@ import geocoder
 import google.generativeai as genai
 import google.generativeai.types
 import speech_recognition as sr
-import whisper
+from typing import Optional
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from langchain_community.tools import DuckDuckGoSearchRun
 from dotenv import load_dotenv
@@ -24,10 +24,12 @@ _search = DuckDuckGoSearchRun()
 # Initialize recognizer and Whisper model
 _recognizer = sr.Recognizer()
 _microphone = sr.Microphone(sample_rate=16000)
-_whisper_model = whisper.load_model("tiny")
 
 # Initialize pocketsphinx decoder
-_decoder = Decoder(Config(dict="./hotwords/hotwords.dict", keyphrase="hey rania"))
+_decoder = Decoder(Config(
+    dict=os.path.join(os.path.dirname(os.path.realpath(__file__)), "hotwords", "hotwords.dict"),
+    keyphrase="hey rania"
+))
 
 # Configure LLM
 genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
@@ -35,24 +37,22 @@ _llm_model = genai.GenerativeModel("gemini-1.0-pro-latest")
 _conversation = _llm_model.start_chat(history=[])
 
 
-def speech_to_text(recognizer: sr.Recognizer, audio: {}) -> str:
+def speech_to_text(audio: sr.AudioData) -> Optional[str]:
     try:
-        return recognizer.recognize_whisper(audio)
+        return _recognizer.recognize_whisper(audio)
     except sr.UnknownValueError:
-        return "Could not understand audio"
+        return None
 
 
 def listen_wake_word() -> bool:
     if _microphone.stream is None:
         _microphone.__enter__()
 
-    stream = _microphone.stream.pyaudio_stream
-
     print('Say "Hey Rania"')
     _decoder.start_utt()
 
     while True:
-        buf = stream.read(1024, exception_on_overflow=False)
+        buf = _microphone.stream.pyaudio_stream.read(1024, exception_on_overflow=False)
 
         if buf:
             _decoder.process_raw(buf, False, False)
@@ -65,32 +65,21 @@ def listen_wake_word() -> bool:
             return True
 
 
-def listen() -> str:
+def listen() -> Optional[sr.AudioData]:
     with sr.Microphone() as source:
         _recognizer.adjust_for_ambient_noise(source, duration=1)
 
         print("Listening:")
 
         try:
-            audio = _recognizer.listen(source, timeout=8)
-
-            print("Processing speech to text...")
-
-            # Save local audio
-            with open("microphone.wav", "wb") as f:
-                f.write(audio.get_wav_data())
-
-            # Transcribe the spoken words from the user
-            result = _whisper_model.transcribe("microphone.wav")
-
-            return result['text']
+            return _recognizer.listen(source, timeout=8)
         except sr.WaitTimeoutError:
             print("Timed out waiting for speech")
 
-    return "Nothing was spoken"
+    return None
 
 
-def send_query(query: str) -> None | google.generativeai.types.GenerateContentResponse:
+def send_query(query: str) -> Optional[google.generativeai.types.GenerateContentResponse]:
     prompt = f'''
         You will receive a query that you must answer as good as possible.
         Your answer will be based on the current date, location, conversation
