@@ -1,11 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+import { useWebSocket } from "../../hooks/useWebSocket";
 import "./Listening.css";
 
 const Listening = () => {
   const requestRef = useRef();
   const dataArray = useRef([]);
+
+  const [socketUrl] = useState("ws://localhost:8001/");
+  const websocket = useWebSocket(socketUrl);
+
+  const navigate = useNavigate();
 
   const [heights, setHeights] = useState([]);
 
@@ -119,6 +125,16 @@ const Listening = () => {
     };
   }, [animate]);
 
+  useEffect(() => {
+    if (websocket?.lastMessage) {
+      const response = JSON.parse(websocket.lastMessage.data);
+
+      if (response.route) {
+        navigate(response.route);
+      }
+    }
+  }, [websocket?.lastMessage, navigate]);
+
   return (
     <div>
       <div className="Listening__audio-visualizer">
@@ -130,9 +146,6 @@ const Listening = () => {
           />
         ))}
       </div>
-
-      <h1>Listening</h1>
-      <Link to="/response">Response</Link>
     </div>
   );
 };

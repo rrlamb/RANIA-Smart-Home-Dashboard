@@ -115,7 +115,7 @@ def send_query(query: str) -> Optional[google.generativeai.types.GenerateContent
 
     try:
         # TODO: Adjust permission level. It is currently set to allow all
-        return _conversation.send_message(prompt, stream=True, safety_settings={
+        return _conversation.send_message(prompt, safety_settings={
             HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
             HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
             HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,

@@ -12,18 +12,21 @@ const WebSocketContext = createContext({});
 const WebSocketProvider = ({ socketUrl, children }) => {
   const didUnmount = useRef(false);
 
-  const { sendMessage, lastMessage, readyState, getWebSocket } = useWS(
-    socketUrl,
-    {
-      retryOnError: true,
-      reconnectAttempts: 10,
-      // Reconnect pattern of 0, 1, 2, 4, 8, 10, 10, 10...
-      reconnectInterval: (attemptNumber) =>
-        Math.min(Math.pow(2, attemptNumber) * 1000, 10000),
-      share: true,
-      shouldReconnect: () => didUnmount.current,
-    }
-  );
+  const {
+    sendMessage,
+    lastMessage,
+    lastJsonMessage,
+    readyState,
+    getWebSocket,
+  } = useWS(socketUrl, {
+    retryOnError: true,
+    reconnectAttempts: 10,
+    // Reconnect pattern of 0, 1, 2, 4, 8, 10, 10, 10...
+    reconnectInterval: (attemptNumber) =>
+      Math.min(Math.pow(2, attemptNumber) * 1000, 10000),
+    share: true,
+    shouldReconnect: () => didUnmount.current,
+  });
 
   useEffect(() => {
     return () => {
@@ -35,10 +38,11 @@ const WebSocketProvider = ({ socketUrl, children }) => {
     () => ({
       sendMessage,
       lastMessage,
+      lastJsonMessage,
       readyState,
       getWebSocket,
     }),
-    [getWebSocket, lastMessage, readyState, sendMessage]
+    [getWebSocket, lastMessage, lastJsonMessage, readyState, sendMessage]
   );
 
   return (
