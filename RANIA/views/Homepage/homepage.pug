@@ -6,7 +6,7 @@ html(lang="en")
     meta(content="" name="description")
     meta(content="" name="author")
 
-    title RANIA Dashboard
+    title RANIA Homepage
 
     link(href="../../public/stylesheets/dashboard.css" rel="stylesheet")
     link(href="../../public/stylesheets/button.css" rel="stylesheet")
@@ -47,10 +47,14 @@ html(lang="en")
         nav#sidenavAccordion.sb-sidenav.accordion.sb-sidenav-dark
           .sb-sidenav-menu
             .nav
-              a.nav-title RANIA
-              a.nav-link-active Dashboard
-              a.nav-link(href="/homepage") Homepage- Group 16
-              //a.nav-link(href="/devices") Manage Devices
+              a.nav-title RANIA Homepage
+              a.nav-link(href="/dashboard") Dashboard
+              a.nav-link(href="/questions") Ask a Question 
+              a.nav-link(href="/calendar") Calendar
+              a.nav-link(href="/messages") Messages
+              a.nav-link(href="/reminders") Reminders
+              a.nav-link(href="/settings") Settings
+              //- a.nav-link(href="/devices") Manage Devices
               //- a.nav-link(href="/settings") User Info
               //- a.nav-link(href="/agenda") Manage Your Agenda
           .sb-sidenav-footer
@@ -72,37 +76,7 @@ html(lang="en")
                       month = date.getMonth() + 1;
                       day = date.getDate();
                       document.getElementById("current_date").innerHTML = month + "/" + day + "/" + year;
-                hr
-                .card.notificationsCard
-                  .card-body Notifications
-                  .card-text
-                    p Notifications
-                  //- .card-footer.d-flex.align-items-center.justify-content-between
-                hr
-                .card.notificationsCard
-                  .card-body Pending Connections
-                    .card-text
-                      table.userInfo-table#pending-conns-table
-                        tbody
-                          tr
-                            th  Device Name
-                            th  Connection Code
-                            th  Accept
-                            th  Reject
-                          tr
-
-              .col-2
-                .card.deviceListCard
-                  .card-body 
-                    table.schedule-table#devices-table
-                    hr
-                    //- p#device-label
-
-                    table.schedule-table
-                      tr#available-data-table
-
-                    div#data-area
-                  //- .card-footer.d-flex.align-items-center.justify-content-between
+              
                 
                 
   script(
