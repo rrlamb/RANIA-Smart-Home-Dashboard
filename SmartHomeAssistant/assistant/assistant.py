@@ -16,7 +16,7 @@ from pocketsphinx import Decoder, Config
 load_dotenv()
 
 # Get the location based on ip
-_location = geocoder.ip('me')
+_location = geocoder.ip("me")
 
 # Initialize DuckDuckGo search
 _search = DuckDuckGoSearchRun()
@@ -26,10 +26,23 @@ _recognizer = sr.Recognizer()
 _microphone = sr.Microphone(sample_rate=16000)
 
 # Initialize pocketsphinx decoder
-_decoder = Decoder(Config(
-    dict=os.path.join(os.path.dirname(os.path.realpath(__file__)), "hotwords", "hotwords.dict"),
-    keyphrase="hey rania"
-))
+# Specify the path to the keyword list file and dictionary
+keyword_list_path = os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), "hotwords", "keyword_list.txt"
+)
+dict_path = os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), "hotwords", "hotwords.dict"
+)
+
+# Configuration parameters directly aimed at initializing with kws mode
+config = {
+    "dict": dict_path,
+    "kws": keyword_list_path,
+}
+
+# Initialize the decoder with these specific settings aimed at kws mode
+_decoder = Decoder(**config)
+
 
 # Configure LLM
 genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
@@ -57,10 +70,12 @@ def listen_wake_word() -> bool:
         if buf:
             _decoder.process_raw(buf, False, False)
         else:
-            print(f'An error has occured. Buf is: {buf}')
+            print(f"An error has occured. Buf is: {buf}")
             return False
 
-        if _decoder.hyp():
+        if _decoder.hyp() is not None:
+            for seg in _decoder.seg():
+                print(seg.word)
             _decoder.end_utt()
             return True
 
@@ -79,8 +94,10 @@ def listen() -> Optional[sr.AudioData]:
     return None
 
 
-def send_query(query: str) -> Optional[google.generativeai.types.GenerateContentResponse]:
-    prompt = f'''
+def send_query(
+    query: str,
+) -> Optional[google.generativeai.types.GenerateContentResponse]:
+    prompt = f"""
         You will receive a query that you must answer as good as possible.
         Your answer will be based on the current date, location, conversation
         history, and what you know.
@@ -111,16 +128,19 @@ def send_query(query: str) -> Optional[google.generativeai.types.GenerateContent
         Set the type to cancel if the user no longer wishes to continue the conversation.
         Examples of cancel would be "Nevermind", "Stop", or anything similar.
     
-        Query: ${query}'''
+        Query: ${query}"""
 
     try:
         # TODO: Adjust permission level. It is currently set to allow all
-        return _conversation.send_message(prompt, safety_settings={
-            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE
-        })
+        return _conversation.send_message(
+            prompt,
+            safety_settings={
+                HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+            },
+        )
     except Exception as e:
         # TODO: Improve error handling
         print(e)
