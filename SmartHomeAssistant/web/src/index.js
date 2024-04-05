@@ -5,6 +5,7 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 
 import Idle from "./pages/Idle/Idle";
 import Listening from "./pages/Listening/Listening";
+import Loading from "./pages/Loading/Loading";
 import Response from "./pages/Response/Response";
 import { WebSocketProvider } from "./hooks/useWebSocket";
 import "./index.css";
@@ -17,6 +18,10 @@ const router = createHashRouter([
   {
     path: "/listening",
     element: <Listening />,
+  },
+  {
+    path: "/loading",
+    element: <Loading />
   },
   {
     path: "/response",

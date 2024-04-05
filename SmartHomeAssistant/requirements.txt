@@ -54,7 +54,6 @@ langchain-community==0.0.28
 langchain-core==0.1.32
 langchain-text-splitters==0.0.1
 langsmith==0.1.27
-llama_cpp_python==0.2.57
 llvmlite==0.42.0
 lxml==5.1.0
 lz4==4.3.3

@@ -31,8 +31,16 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
 
                     print(responseJson)
 
-                    await websocket.send(json.dumps({"text": responseJson["response"]["text"], "route": "/", "waittime": 8}))
+                    await websocket.send(
+                        json.dumps(
+                            {
+                                "text": responseJson["response"]["text"],
+                                "route": "/",
+                                "waittime": 8,
+                            }
+                        )
+                    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run(producer)
