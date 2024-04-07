@@ -1,5 +1,6 @@
 import json
 import websockets
+import pyttsx3
 
 from assistant import listen_wake_word, listen, speech_to_text, send_query
 from websocket import run
@@ -29,7 +30,10 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
                 if response is not None:
                     responseJson = json.loads(response.text)
 
-                    print(responseJson)
+                    #print(responseJson)
+                    engine = pyttsx3.init()
+                    engine.say(response.txt)
+                    engine.runAndWait()
 
                     await websocket.send(
                         json.dumps(
