@@ -8,7 +8,7 @@ from typing import Optional
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from langchain_community.tools import DuckDuckGoSearchRun
 from dotenv import load_dotenv
-from datetime import date
+from datetime import date, datetime
 from pocketsphinx import Decoder
 
 
@@ -98,22 +98,33 @@ def send_query(
     query: str,
 ) -> Optional[google.generativeai.types.GenerateContentResponse]:
     prompt = f"""
-        You will receive a query that you must answer as good as possible.
-        Your answer will be based on the current date, location, conversation
-        history, and what you know.
+        You will receive a query that you must answer as effectively as possible.
+        Your answer will be based on the current date, the current time, 
+        location, conversation history, and what you know.
     
         The current date is {date.today().strftime('%A, %B %d, %Y')}.
+        The current time is {datetime.now().strftime('%H:%M')}.
     
         The location is {_location.address}.
     
         Here are the results of a DuckDuckGo search: ${_search.run(f'{query}')}
     
-        Using what you know and these results respond to the message below.
+        Using what you know and these results, respond to the message below.
         If the DuckDuckGo search does not provide enough information you may
-        ignore the results and give an answer using other messages from this
-        conversation. Do not mention the DuckDuckGo at all in your response
-        in any way and respond as concisely as possible while still using
-        full sentences.
+        ignore the results and rely on other messages from this conversation to
+        answer the query. Do not mention the DuckDuckGo at all in your response
+        in any way.
+
+        Aim to provide responses that are not only informative but also convey
+        warmth and friendliness to the user. In your responses, prioritize 
+        clarity and engagement, while also aiming to be concise
+        with full sentences.
+
+        When responding to queries that involve health or medical information,
+        include a disclaimer urging the user to consult with a trained medical
+        professional for personalized advice. This is to ensure the user's
+        safety and to acknowledge your limitations in providing
+        medical guidance.
     
         Format your response as JSON and structure it as shown below:
         {{
