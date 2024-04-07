@@ -9,7 +9,7 @@ from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from langchain_community.tools import DuckDuckGoSearchRun
 from dotenv import load_dotenv
 from datetime import date
-from pocketsphinx import Decoder, Config
+from pocketsphinx import Decoder
 
 
 # Load environment variables

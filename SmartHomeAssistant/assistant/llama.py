@@ -25,4 +25,4 @@ llm_chain = LLMChain(prompt=prompt, llm=llm)
 while True:
     question = input("Ask llama: ")
     answer = llm_chain.invoke(question)
-    print(answer['text'], '\n')
+    print(answer["text"], "\n")
