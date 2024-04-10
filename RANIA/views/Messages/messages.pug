@@ -39,13 +39,20 @@ html(lang="en")
           padding: 20px;
           border-radius: 10px;
           overflow-y: auto;
-          height: fluid;
+          width: 80%;
+          margin-left: 160px;
+          height: auto;
+        
       }
        #chat-input {
-          width: 94%; /* Make input span the width of the container */
+          width: 80%; /* Make input span the width of the container */
+          margin-left: 150px;
           resize: vertical; /* Allow vertical resizing */
+          
       }
-  body.sb-nav-fixed
+
+  body.sb-nav-fixed 
+    
     #layoutSidenav
       .mobile-menu
         input#hamburger(
@@ -112,7 +119,7 @@ html(lang="en")
           const input = document.getElementById('chat-input');
           const message = input.value.trim();
           if (message) {
-              chatMessages.push("ME: "+ message);
+              chatMessages.push("UserName: "+ message);
               input.value = '';
               displayMessages();
           }
