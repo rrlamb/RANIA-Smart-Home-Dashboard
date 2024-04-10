@@ -1,4 +1,4 @@
-doctype html
+﻿doctype html
 html(lang="en")
   head
     meta(charset="UTF-8")
@@ -6,23 +6,90 @@ html(lang="en")
     title Chat Room
     // Include Bootstrap CSS
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css")
+    meta(content="IE=edge" http-equiv="X-UA-Compatible")
+    meta(content="width=device-width, initial-scale=1.0" name="viewport")
+    meta(content="" name="description")
+    meta(content="" name="author")
+
+    title RANIA Messages
+
+    link(href="../../public/stylesheets/dashboard.css" rel="stylesheet")
+    link(href="../../public/stylesheets/button.css" rel="stylesheet")
+    link(href="../../public/stylesheets/col.css" rel="stylesheet")
+    link(href="../../public/stylesheets/root.css" rel="stylesheet")
+    link(href="../../public/stylesheets/hr.css" rel="stylesheet")
+    link(href="../../public/stylesheets/container.css" rel="stylesheet")
+    link(href="../../public/stylesheets/ul.css" rel="stylesheet")
+    link(href="../../public/stylesheets/dropdown.css" rel="stylesheet")
+    link(href="../../public/stylesheets/nav.css" rel="stylesheet")
+    link(href="../../public/stylesheets/mobile.css" rel="stylesheet")
+    link(href="../../public/stylesheets/sb.css" rel="stylesheet")
+    link(href="../../public/stylesheets/card.css" rel="stylesheet")
+    link(href="../../public/stylesheets/accordion.css" rel="stylesheet")
+    link(href="../../public/stylesheets/misc.css" rel="stylesheet")
+    link(href="../../public/stylesheets/table.css" rel="stylesheet")
+    link(href="../../public/stylesheets/link.css" rel="stylesheet")
+    script(type='module' src="../../public/scripts/Dashboard/dashboard.js")
+    script(src='https://d3js.org/d3.v7.min.js')
     // Custom CSS for chat styling
     style.
       /* Chat container styles */
       #chat-container {
-          height: 400px;
-          overflow-y: scroll;
+          background-color: #464646; /* Yellow background */
+          padding: 20px;
+          border-radius: 10px;
+          overflow-y: auto;
+          height: fluid;
       }
-  body
-    .container.mt-5
+       #chat-input {
+          width: 94%; /* Make input span the width of the container */
+          resize: vertical; /* Allow vertical resizing */
+      }
+  body.sb-nav-fixed
+    #layoutSidenav
+      .mobile-menu
+        input#hamburger(
+          value="hamb" 
+          name="hamb" 
+          type="checkbox"
+          )
+        label(for="hamb") ☰
+        ul.mobile
+          li
+            a.nav-link(href="index.html") Manage Devices
+          li
+            a.nav-link(href="/settings") Edit Resident Info
+          li
+            a.nav-link(href="index.html") Send data to...
+      div(id="layoutSidenav_nav")
+        nav#sidenavAccordion.sb-sidenav.accordion.sb-sidenav-dark
+          .sb-sidenav-menu
+            .nav
+              a.nav-title RANIA Homepage
+              a.nav-link(href="/dashboard") Dashboard
+              a.nav-link(href="/questions") Ask a Question 
+              a.nav-link(href="/calendar") Calendar
+              a.nav-link(href="/Messages") Messages
+              a.nav-link(href="/reminders") Reminders
+              a.nav-link(href="/settings") Settings
+              //- a.nav-link(href="/devices") Manage Devices
+              //- a.nav-link(href="/settings") User Info
+              //- a.nav-link(href="/agenda") Manage Your Agenda
+          .sb-sidenav-footer
+            .small Logged in as:
+            | UserName
+            button.db-button(type='button' onclick="window.location.href='/'") logout
+      div(id="layoutSidenav_content")
+  main
+    
+    .container.mt-5.fluid
       .card
-        .card-header
-          | Chat Room
         .card-body#chat-container
           // Chat messages will appear here
         .card-footer
           input.form-control(type="text", id="chat-input", placeholder="Type your message...")
           button.btn.btn-primary.mt-2(onclick="sendMessage()") Send
+          
 
     // Include Bootstrap JS (optional)
     script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js")
@@ -45,7 +112,7 @@ html(lang="en")
           const input = document.getElementById('chat-input');
           const message = input.value.trim();
           if (message) {
-              chatMessages.push(message);
+              chatMessages.push("ME: "+ message);
               input.value = '';
               displayMessages();
           }
