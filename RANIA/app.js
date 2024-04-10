@@ -20,6 +20,7 @@ var medicationRouter = require("./routes/editmedication");
 var contactRouter = require("./routes/editcontact");
 var deviceRouter = require("./routes/devices");
 var homepageRouter = require("./routes/homepage");
+var messagesRouter = require("./routes/messages");
 
 var app = express();
 
@@ -49,6 +50,7 @@ app.use("/devices", deviceRouter);
 app.use("/medications", medicationRouter);
 app.use("/personal", personalRouter);
 app.use("/homepage", homepageRouter);
+app.use("/messages", messagesRouter);
 
 app.use(
   "/public/stylesheets",
