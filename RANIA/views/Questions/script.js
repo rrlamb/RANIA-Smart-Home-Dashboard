@@ -10,7 +10,17 @@ import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai"
                 showLoadingIndicator();
                 const inputData = document.getElementById('newMessages').value;
                 processData(inputData); 
+                document.getElementById('newMessages').value = '';
             }
+
+            document.addEventListener("keydown", function (event) {
+                if (event.keyCode == 13) {
+                    showLoadingIndicator();
+                    const inputData = document.getElementById('newMessages').value;
+                    processData(inputData); 
+                    document.getElementById('newMessages').value = '';
+                }
+             });
 
             function showLoadingIndicator() {
                 document.getElementById("submit-button").textContent = "Loading...";

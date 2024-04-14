@@ -65,8 +65,8 @@ app.use(
   express.static(path.join(__dirname, "public", "images"))
 );
 app.use(
-  "/views/Assistant",
-  express.static(path.join(__dirname, "views", "Assistant"))
+  "/views/Questions",
+  express.static(path.join(__dirname, "views", "Questions"))
 );
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
