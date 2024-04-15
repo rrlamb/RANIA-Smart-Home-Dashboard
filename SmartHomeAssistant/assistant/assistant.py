@@ -10,6 +10,7 @@ from langchain_community.tools import DuckDuckGoSearchRun
 from dotenv import load_dotenv
 from datetime import date, datetime
 from pocketsphinx import Decoder
+from duckduckgo_search import DDGS
 
 
 # Load environment variables
@@ -19,7 +20,8 @@ load_dotenv()
 _location = geocoder.ip("me")
 
 # Initialize DuckDuckGo search
-_search = DuckDuckGoSearchRun()
+#_search = DuckDuckGoSearchRun()
+
 
 # Initialize recognizer and Whisper model
 _recognizer = sr.Recognizer()
@@ -100,14 +102,15 @@ def send_query(
     prompt = f"""
         You will receive a query that you must answer as effectively as possible.
         Your answer will be based on the current date, the current time, 
-        location, conversation history, and what you know.
+        location, conversation history, and the duckduckgo search.
     
         The current date is {date.today().strftime('%A, %B %d, %Y')}.
         The current time is {datetime.now().strftime('%H:%M')}.
     
         The location is {_location.address}.
     
-        Here are the results of a DuckDuckGo search: ${_search.run(f'{query}')}
+        Here are the results of a DuckDuckGo search: ${DDGS().text(f'{query}', 
+                                                                   max_results=1)[0]['body']}
     
         Using what you know and these results, respond to the message below.
         If the DuckDuckGo search does not provide enough information you may

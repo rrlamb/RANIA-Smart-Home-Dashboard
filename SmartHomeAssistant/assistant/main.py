@@ -29,8 +29,9 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
 
                 if response is not None:
                     responseJson = json.loads(response.text)
-
-                    #print(responseJson)
+                    #engine = pyttsx3.init()
+                    #engine.say(responseJson["response"]["text"])
+                    #engine.runAndWait()
                     engine = pyttsx3.init()
                     engine.say(response.txt)
                     engine.runAndWait()
@@ -40,11 +41,10 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
                             {
                                 "text": responseJson["response"]["text"],
                                 "route": "/",
-                                "waittime": 8,
+                                "waittime": 2,
                             }
                         )
                     )
-
 
 if __name__ == "__main__":
     run(producer)
