@@ -21,6 +21,7 @@ var contactRouter = require("./routes/editcontact");
 var deviceRouter = require("./routes/devices");
 var homepageRouter = require("./routes/homepage");
 var messagesRouter = require("./routes/messages");
+var remindersRouter = require("./routes/reminders");
 
 var app = express();
 
@@ -51,6 +52,7 @@ app.use("/medications", medicationRouter);
 app.use("/personal", personalRouter);
 app.use("/homepage", homepageRouter);
 app.use("/messages", messagesRouter);
+app.use("/reminders", remindersRouter);
 
 app.use(
   "/public/stylesheets",

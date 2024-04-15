@@ -1,0 +1,96 @@
+doctype html
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(content="IE=edge" http-equiv="X-UA-Compatible")
+    meta(content="width=device-width, initial-scale=1.0" name="viewport")
+    meta(content="" name="description")
+    meta(content="" name="author")
+
+    title RANIA Reminders
+
+    link(href="../../public/stylesheets/dashboard.css" rel="stylesheet")
+    link(href="../../public/stylesheets/button.css" rel="stylesheet")
+    link(href="../../public/stylesheets/col.css" rel="stylesheet")
+    link(href="../../public/stylesheets/root.css" rel="stylesheet")
+    link(href="../../public/stylesheets/hr.css" rel="stylesheet")
+    link(href="../../public/stylesheets/container.css" rel="stylesheet")
+    link(href="../../public/stylesheets/ul.css" rel="stylesheet")
+    link(href="../../public/stylesheets/dropdown.css" rel="stylesheet")
+    link(href="../../public/stylesheets/nav.css" rel="stylesheet")
+    link(href="../../public/stylesheets/mobile.css" rel="stylesheet")
+    link(href="../../public/stylesheets/sb.css" rel="stylesheet")
+    link(href="../../public/stylesheets/card.css" rel="stylesheet")
+    link(href="../../public/stylesheets/accordion.css" rel="stylesheet")
+    link(href="../../public/stylesheets/misc.css" rel="stylesheet")
+    link(href="../../public/stylesheets/table.css" rel="stylesheet")
+    link(href="../../public/stylesheets/link.css" rel="stylesheet")
+    script(type='module' src="../../public/scripts/Dashboard/dashboard.js")
+    script(src='https://d3js.org/d3.v7.min.js')
+
+    body.sb-nav-fixed
+    #layoutSidenav
+      .mobile-menu
+        input#hamburger(
+          value="hamb" 
+          name="hamb" 
+          type="checkbox"
+          )
+        label(for="hamb") ☰
+        ul.mobile
+          li
+            a.nav-link(href="index.html") Manage Devices
+          li
+            a.nav-link(href="/settings") Edit Resident Info
+          li
+            a.nav-link(href="index.html") Send data to...
+      div(id="layoutSidenav_nav")
+        nav#sidenavAccordion.sb-sidenav.accordion.sb-sidenav-dark
+          .sb-sidenav-menu
+            .nav
+              a.nav-title RANIA Homepage
+              a.nav-link(href="/dashboard") Dashboard
+              a.nav-link(href="/questions") Ask a Question 
+              a.nav-link(href="/calendar") Calendar
+              a.nav-link(href="/Messages") Messages
+              a.nav-link(href="/reminders") Reminders
+              a.nav-link(href="/settings") Settings
+              //- a.nav-link(href="/devices") Manage Devices
+              //- a.nav-link(href="/settings") User Info
+              //- a.nav-link(href="/agenda") Manage Your Agenda
+          .sb-sidenav-footer
+            .small Logged in as:
+            | UserName
+            button.db-button(type='button' onclick="window.location.href='/'") logout
+      div(id="layoutSidenav_content")
+        main
+          .container
+            h1 Set a Reminder
+            form(action="/setReminder", method="post")
+              .row
+                .col
+                  h5 Reminder Name:
+                  //label(for="reminderName") Reminder Name:
+                  input(type="text", name="reminderName", id="reminderName", required)
+                .col
+                  h5 Day (dd):
+                  label(for="day") Day:
+                  input(type="number", name="day", id="day", min="1", max="31", required)
+              .row
+                .col
+                  h5 Month(mm):
+                  label(for="month") Month:
+                  input(type="number", name="month", id="month", min="1", max="12", required)
+                .col
+                  h5 Year(yyyy):
+                  label(for="year") Year:
+                  input(type="number", name="year", id="year", min="2022", max="2099", required)
+              .row
+                .col
+                h5 Time(hh:mm AM/PM):
+                  label(for="time") Time:
+                  input(type="time", name="time", id="time", required)
+              .row
+                .col
+                  button(type="submit") Set Reminder
