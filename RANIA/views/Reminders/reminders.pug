@@ -67,12 +67,18 @@ html(lang="en")
         main
           .container
             h1 Set a Reminder
+            h2 Hello [user],
+            h3    You can now set reminders to be added to your calendar. Please label
+            h3     your reminder and fill in all the required fields. Once complete,
+            h3     press submit to add the reminder to your calendar!
+        
             form(action="/setReminder", method="post")
               .row
                 .col
                   h5 Reminder Name:
                   //label(for="reminderName") Reminder Name:
                   input(type="text", name="reminderName", id="reminderName", required)
+              .row
                 .col
                   h5 Day (dd):
                   label(for="day") Day:
@@ -82,6 +88,7 @@ html(lang="en")
                   h5 Month(mm):
                   label(for="month") Month:
                   input(type="number", name="month", id="month", min="1", max="12", required)
+              .row
                 .col
                   h5 Year(yyyy):
                   label(for="year") Year:
