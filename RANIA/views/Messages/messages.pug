@@ -28,33 +28,8 @@ html
     link(href="../../public/stylesheets/link.css" rel="stylesheet")
     script(type='module' src="../../public/scripts/Dashboard/dashboard.js")
     script(src='https://d3js.org/d3.v7.min.js')
-<<<<<<< HEAD
-    // Custom CSS for chat styling
-    style.
-      /* Chat container styles */
-      #chat-container {
-          background-color: #464646; /* Yellow background */
-          padding: 20px;
-          border-radius: 10px;
-          overflow-y: auto;
-          width: 80%;
-          margin-left: 160px;
-          height: auto;
-        
-      }
-       #chat-input {
-          width: 80%; /* Make input span the width of the container */
-          margin-left: 150px;
-          resize: vertical; /* Allow vertical resizing */
-          
-      }
-
-  body.sb-nav-fixed 
-    
-=======
 
   body.sb-nav-fixed
->>>>>>> CSEE-481-Group16
     #layoutSidenav
       .mobile-menu
         input#hamburger(
@@ -101,16 +76,34 @@ html
             script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js")
     script.
       const chatMessages = []; // Array to store chat messages
-
+          
       // Function to display messages in the chat container
       function displayMessages() {
           const chatContainer = document.getElementById('chat-container');
-          chatContainer.innerHTML = '';
+            chatContainer.innerHTML = '';
+            // Predefined messages for the demo
+            const demoMessages = [
+                "User1: Hello!",
+                "User2: Hi there!",
+                "User1: How are you?",
+                "User2: I'm doing well, thanks. How about you?",
+                "User1: I'm great, thanks for asking!",
+                // Add more predefined messages as needed
+            ];
+
+            // Display predefined messages
+            demoMessages.forEach(message => {
+                const p = document.createElement('p');
+                p.textContent = message;
+                chatContainer.appendChild(p);
+          });
           chatMessages.forEach(message => {
               const p = document.createElement('p');
               p.textContent = message;
               chatContainer.appendChild(p);
           });
+       
+          
       }
 
       // Function to handle sending a message
