@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const Reminder = require('../models/reminder');
 var path = require("path");
 var ap = path.join("Calendar", "calendar");
 
