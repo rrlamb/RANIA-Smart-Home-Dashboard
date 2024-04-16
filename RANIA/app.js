@@ -22,6 +22,7 @@ var deviceRouter = require("./routes/devices");
 var homepageRouter = require("./routes/homepage");
 var messagesRouter = require("./routes/messages");
 var remindersRouter = require("./routes/reminders");
+var questionsRouter = require("./routes/questions");
 
 var app = express();
 
@@ -53,6 +54,7 @@ app.use("/personal", personalRouter);
 app.use("/homepage", homepageRouter);
 app.use("/messages", messagesRouter);
 app.use("/reminders", remindersRouter);
+app.use("/questions", questionsRouter);
 
 app.use(
   "/public/stylesheets",
@@ -65,6 +67,10 @@ app.use(
 app.use(
   "/public/images",
   express.static(path.join(__dirname, "public", "images"))
+);
+app.use(
+  "/views/Questions",
+  express.static(path.join(__dirname, "views", "Questions"))
 );
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -81,5 +87,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+
 
 module.exports = app;

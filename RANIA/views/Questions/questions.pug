@@ -1,13 +1,14 @@
 doctype html
-html(lang="en")
+html
   head
+    script(type='module' src="/./../views/Questions/script.js") 
     meta(charset="utf-8")
     meta(content="IE=edge" http-equiv="X-UA-Compatible")
     meta(content="width=device-width, initial-scale=1.0" name="viewport")
     meta(content="" name="description")
     meta(content="" name="author")
 
-    title RANIA Reminders
+    title RANIA AI Assistant
 
     link(href="../../public/stylesheets/dashboard.css" rel="stylesheet")
     link(href="../../public/stylesheets/button.css" rel="stylesheet")
@@ -25,40 +26,10 @@ html(lang="en")
     link(href="../../public/stylesheets/misc.css" rel="stylesheet")
     link(href="../../public/stylesheets/table.css" rel="stylesheet")
     link(href="../../public/stylesheets/link.css" rel="stylesheet")
-    style.
-
-      #reminderBox {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 30%; /* Adjust width as needed */
-        padding: 20px;
-        margin-top: 20px;
-      }
-
-      .reminder-box {
-        margin-bottom: 20px;
-      }
-
     script(type='module' src="../../public/scripts/Dashboard/dashboard.js")
     script(src='https://d3js.org/d3.v7.min.js')
 
-    script.
-      function displayReminder() {
-        var reminderName = document.getElementById("reminderName").value;
-        var day = document.getElementById("day").value;
-        var month = document.getElementById("month").value;
-        var year = document.getElementById("year").value;
-        var time = document.getElementById("time").value;
-
-        var reminderBox = document.getElementById("reminderBox");
-        var reminderItem = document.createElement('div');
-        reminderItem.className = 'reminder-box';
-        reminderItem.innerHTML = "<h2>Reminder:</h2><p>Name: " + reminderName + "</p><p>Date: " + day + "/" + month + "/" + year + "</p><p>Time: " + time + "</p>";
-        reminderBox.appendChild(reminderItem);
-      }
-
-    body.sb-nav-fixed
+  body.sb-nav-fixed
     #layoutSidenav
       .mobile-menu
         input#hamburger(
@@ -82,7 +53,7 @@ html(lang="en")
               a.nav-link(href="/dashboard") Dashboard
               a.nav-link(href="/questions") Ask a Question 
               a.nav-link(href="/calendar") Calendar
-              a.nav-link(href="/Messages") Messages
+              a.nav-link(href="/messages") Messages
               a.nav-link(href="/reminders") Reminders
               a.nav-link(href="/settings") Settings
               //- a.nav-link(href="/devices") Manage Devices
@@ -94,41 +65,11 @@ html(lang="en")
             button.db-button(type='button' onclick="window.location.href='/'") logout
       div(id="layoutSidenav_content")
         main
-          .container
-            h1 Set a Reminder
-            h2 Hello UserName,
-            h3    You can now set reminders to be added to your calendar. Please label
-            h3     your reminder and fill in all the required fields. Once complete,
-            h3     press submit to add the reminder to your calendar!
-        
-            form(action="/setReminder", method="post" onsubmit="displayReminder(); return false;")
-              .row
-                .col
-                  h5 Reminder Name:
-                  //label(for="reminderName") Reminder Name:
-                  input(type="text", name="reminderName", id="reminderName", required)
-              .row
-                .col
-                  h5 Day (dd):
-                  label(for="day") Day:
-                  input(type="number", name="day", id="day", min="1", max="31", required)
-              .row
-                .col
-                  h5 Month(mm):
-                  label(for="month") Month:
-                  input(type="number", name="month", id="month", min="1", max="12", required)
-              .row
-                .col
-                  h5 Year(yyyy):
-                  label(for="year") Year:
-                  input(type="number", name="year", id="year", min="2022", max="2099", required)
-              .row
-                .col
-                h5 Time(hh:mm AM/PM):
-                  label(for="time") Time:
-                  input(type="time", name="time", id="time", required)
-              .row
-                .col
-                  button(type="submit") Set Reminder
+                
+            // Display area for results
+            div#messages(style='overflow-y: scroll; height: 725px; padding: 10px;')
 
-          #reminderBox
+            div#inputContainer(style='position: fixed; bottom: 0; left: 30; width: 90%; padding: 10px; background-color: #f0f0f0;')
+                // Input form
+                input(type='text', id='newMessages', placeholder='Type your message here', style='width: 82%; height: 65px; font-size: 20px;')
+                button(id='submit-button', style='width: 10%; height: 65px; font-size: 20px;') Send
