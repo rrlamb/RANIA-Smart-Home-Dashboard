@@ -1,0 +1,192 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title March 2024 Calendar
+    style.
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #002855;
+        color: #f0f0f0;
+      }
+      .container {
+        max-width: 960px;
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      main {
+        margin-top: 70px;
+      }
+      h1 {
+        text-align: center;
+        color: #555; /* Grey text */
+        margin-bottom: 20px;
+      }
+      table {
+        margin: 0 auto;
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        background-color: #fff;
+      }
+      th, td {
+        padding: 20px;
+        text-align: center;
+        width: 14.2857%;
+        border: 1px solid #ccc; /* Grey outline */
+        color: #555; /* Grey text */
+      }
+      th {
+        background-color: #f7f7f7; /* Light grey background for table header */
+      }
+      form#eventForm {
+        margin-top: 20px;
+        text-align: center;
+      }
+      button#saveEventBtn {
+        margin-top: 10px;
+        padding: 10px 20px;
+      }
+    link(href="../../public/stylesheets/dashboard.css" rel="stylesheet")
+    link(href="../../public/stylesheets/button.css" rel="stylesheet")
+    link(href="../../public/stylesheets/col.css" rel="stylesheet")
+    link(href="../../public/stylesheets/root.css" rel="stylesheet")
+    link(href="../../public/stylesheets/hr.css" rel="stylesheet")
+    link(href="../../public/stylesheets/container.css" rel="stylesheet")
+    link(href="../../public/stylesheets/ul.css" rel="stylesheet")
+    link(href="../../public/stylesheets/dropdown.css" rel="stylesheet")
+    link(href="../../public/stylesheets/nav.css" rel="stylesheet")
+    link(href="../../public/stylesheets/mobile.css" rel="stylesheet")
+    link(href="../../public/stylesheets/sb.css" rel="stylesheet")
+    link(href="../../public/stylesheets/card.css" rel="stylesheet")
+    link(href="../../public/stylesheets/accordion.css" rel="stylesheet")
+    link(href="../../public/stylesheets/misc.css" rel="stylesheet")
+    link(href="../../public/stylesheets/table.css" rel="stylesheet")
+    link(href="../../public/stylesheets/link.css" rel="stylesheet")
+    script(type='module' src="../../public/scripts/Dashboard/dashboard.js")
+    script(src='https://d3js.org/d3.v7.min.js')
+
+  body.sb-nav-fixed
+    #layoutSidenav
+      .mobile-menu
+        input#hamburger(value="hamb" name="hamb" type="checkbox")
+        label(for="hamb") ☰
+        ul.mobile
+          li
+            a.nav-link(href="/homepage") Homepage- Group 16
+          li
+            a.nav-link(href="/settings") Edit Resident Info
+          li
+            a.nav-link(href="/calendar") Calendar
+          li
+            a.nav-link(href="/messages") Messages
+      div(id="layoutSidenav_nav")
+        nav#sidenavAccordion.sb-sidenav.accordion.sb-sidenav-dark
+          .sb-sidenav-menu
+            .nav
+              a.nav-title RANIA Homepage
+              a.nav-link(href="/dashboard") Dashboard
+              a.nav-link(href="/questions") Ask a Question 
+              a.nav-link(href="/calendar") Calendar
+              a.nav-link(href="/messages") Messages
+              a.nav-link(href="/reminders") Reminders
+              a.nav-link(href="/usersettings") User Settings
+          .sb-sidenav-footer
+            .small Logged in as: | UserName
+            button.db-button(type='button' onclick="window.location.href='/") logout
+      div(id="layoutSidenav_content")
+        main
+          .container
+            h1 March 2024 Calendar
+            table
+              thead
+                tr
+                  th Sun
+                  th Mon
+                  th Tue
+                  th Wed
+                  th Thu
+                  th Fri
+                  th Sat
+              tbody#calendar-body
+                tr
+                  td(data-day="") 
+                  td(data-day="") 
+                  td(data-day="1") 1
+                  td(data-day="2") 2
+                  td(data-day="3") 3
+                  td(data-day="4") 4
+                  td(data-day="5") 5
+                tr
+                  td(data-day="6") 6
+                  td(data-day="7") 7
+                  td(data-day="8") 8
+                  td(data-day="9") 9
+                  td(data-day="10") 10
+                  td(data-day="11") 11
+                  td(data-day="12") 12
+                tr
+                  td(data-day="13") 13
+                  td(data-day="14") 14
+                  td(data-day="15") 15
+                  td(data-day="16") 16
+                  td(data-day="17") 17
+                  td(data-day="18") 18
+                  td(data-day="19") 19
+                tr
+                  td(data-day="20") 20
+                  td(data-day="21") 21
+                  td(data-day="22") 22
+                  td(data-day="23") 23
+                  td(data-day="24") 24
+                  td(data-day="25") 25
+                  td(data-day="26") 26
+                tr
+                  td(data-day="27") 27
+                  td(data-day="28") 28
+                  td(data-day="29") 29
+                  td(data-day="30") 30
+                  td(data-day="31") 31
+                  td(data-day="") 
+                  td(data-day="")
+            form#eventForm
+              label(for="eventDate") Event Date:
+              input(type="text", id="eventDate", name="eventDate", readonly)
+              br
+              label(for="eventDescription") Event Description:
+              input(type="text", id="eventDescription", name="eventDescription")
+              button#saveEventBtn(type="button") Save Event
+
+    // Script for Event Input and Handling
+    script.
+      document.addEventListener("DOMContentLoaded", function() {
+        var dayCells = document.querySelectorAll("#calendar-body td[data-day]");
+
+        dayCells.forEach(function(cell) {
+          cell.addEventListener("click", function() {
+            var selectedDate = this.dataset.day;
+            document.getElementById("eventDate").value = selectedDate;
+          });
+        });
+
+        document.getElementById("saveEventBtn").addEventListener("click", function() {
+          var eventDate = document.getElementById("eventDate").value;
+          var eventDescription = document.getElementById("eventDescription").value;
+
+          if (eventDate && eventDescription) {
+            var dayCell = document.querySelector(`#calendar-body td[data-day="${eventDate}"]`);
+            var eventElement = document.createElement("div");
+            eventElement.textContent = eventDescription;
+
+            dayCell.appendChild(eventElement);
+            document.getElementById("eventDate").value = "";
+            document.getElementById("eventDescription").value = "";
+          } else {
+            alert("Please select a date and enter a description for the event.");
+          }
+        });
+      });

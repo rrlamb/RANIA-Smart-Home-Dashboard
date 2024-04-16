@@ -2,6 +2,7 @@
   "name": "rania",
   "version": "0.0.0",
   "private": true,
+  "main": "server.js",
   "scripts": {
     "start": "node ./bin/www",
     "devstart": "SET DEBUG=myapp:* & nodemon ./bin/www"
@@ -24,3 +25,4 @@
     "nodemon": "^2.0.20"
   }
 }
+
