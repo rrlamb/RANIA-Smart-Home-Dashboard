@@ -42,6 +42,7 @@ html
       .preview-text {
         margin-top: 20px;
         font-size: 16px;
+        text-align: center;
       }
       button {
         display: block;
@@ -60,17 +61,63 @@ html
         background-color: #0056b3;
       }
 
-  body
-    .container
-      h1 Settings
-      label(for="text-size") Text Size
-      input(type="range" id="text-size" min="10" max="30" value="16" onchange="changeTextSize()")
-      label(for="text-color") Text Color
-      input(type="color" id="text-color" value="#333333" onchange="changeTextColor()")
-      .preview-text#previewText
-        | This is example text for your desriable text color. We are happy as a team to assist you in any way possible.
+    link(href="../../public/stylesheets/dashboard.css" rel="stylesheet")
+    link(href="../../public/stylesheets/button.css" rel="stylesheet")
+    link(href="../../public/stylesheets/col.css" rel="stylesheet")
+    link(href="../../public/stylesheets/root.css" rel="stylesheet")
+    link(href="../../public/stylesheets/hr.css" rel="stylesheet")
+    link(href="../../public/stylesheets/container.css" rel="stylesheet")
+    link(href="../../public/stylesheets/ul.css" rel="stylesheet")
+    link(href="../../public/stylesheets/dropdown.css" rel="stylesheet")
+    link(href="../../public/stylesheets/nav.css" rel="stylesheet")
+    link(href="../../public/stylesheets/mobile.css" rel="stylesheet")
+    link(href="../../public/stylesheets/sb.css" rel="stylesheet")
+    link(href="../../public/stylesheets/card.css" rel="stylesheet")
+    link(href="../../public/stylesheets/accordion.css" rel="stylesheet")
+    link(href="../../public/stylesheets/misc.css" rel="stylesheet")
+    link(href="../../public/stylesheets/table.css" rel="stylesheet")
+    link(href="../../public/stylesheets/link.css" rel="stylesheet")
+    script(type='module' src="../../public/scripts/Dashboard/dashboard.js")
+    script(src='https://d3js.org/d3.v7.min.js')
 
-      button(type="button" onclick="saveSettings()") Save
+  body.sb-nav-fixed
+    #layoutSidenav
+      .mobile-menu
+        input#hamburger(value="hamb" name="hamb" type="checkbox")
+        label(for="hamb") ☰
+        ul.mobile
+          li
+            a.nav-link(href="/homepage") Homepage- Group 16
+          li
+            a.nav-link(href="/settings") Edit Resident Info
+          li
+            a.nav-link(href="/calendar") Calendar
+          li
+            a.nav-link(href="/messages") Messages
+      div(id="layoutSidenav_nav")
+        nav#sidenavAccordion.sb-sidenav.accordion.sb-sidenav-dark
+          .sb-sidenav-menu
+            .nav
+              a.nav-title RANIA Homepage
+              a.nav-link(href="/dashboard") Dashboard
+              a.nav-link(href="/questions") Ask a Question 
+              a.nav-link(href="/calendar") Calendar
+              a.nav-link(href="/messages") Messages
+              a.nav-link(href="/reminders") Reminders
+              a.nav-link(href="/usersettings") User Settings
+          .sb-sidenav-footer
+            .small Logged in as: | UserName
+            button.db-button(type='button' onclick="window.location.href='/") logout
+      div(id="layoutSidenav_content")
+        main
+          .container
+            h1 Settings
+            label(for="text-size") Text Size
+            input(type="range" id="text-size" min="10" max="30" value="16" onchange="changeTextSize()")
+            label(for="text-color") Text Color
+            input(type="color" id="text-color" value="#333333" onchange="changeTextColor()")
+            .preview-text#previewText This is example text for your desirable text color. We are happy as a team to assist you in any way possible.
+            button(type="button" onclick="saveSettings()") Save
 
   script.
     function changeTextSize() {
@@ -89,3 +136,6 @@ html
       // Code to save settings (e.g., send to server, save to local storage)
       alert("Settings saved!");
     }
+
+
+
