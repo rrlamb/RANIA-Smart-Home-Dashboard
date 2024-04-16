@@ -7,6 +7,8 @@ var logger = require("morgan");
 const WebSocket = require('ws');
 
 // Routes
+var calendarRouter = require("./routes/calendar");
+var usersettingsRouter = require("./routes/usersettings");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var welcomeRouter = require("./routes/welcome");
@@ -39,6 +41,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes to use
+app.use("/calendar", calendarRouter);
+app.use("/usersettings", usersettingsRouter);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/welcome", welcomeRouter);

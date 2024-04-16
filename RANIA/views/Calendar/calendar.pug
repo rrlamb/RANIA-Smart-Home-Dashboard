@@ -1,0 +1,126 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title March 2024 Calendar
+    style.
+      body {
+        background-color: #002855; /* Set background color to West Virginia Mountaineers blue */
+        color: #f0f0f0; /* Set text color to a softer shade of white */
+      }
+      table {
+        margin: 0 auto; /* Center the table */
+        width: 80%; /* Set the width to fit the majority of the page */
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+      th, td {
+        padding: 20px;
+        text-align: center;
+        width: 14.2857%; /* Set width for each day column */
+        border: 1px solid #f0f0f0; /* Add border for each day cell */
+      }
+
+  body
+    h1(style="text-align: center;") March 2024 Calendar
+    table
+      caption March 2024
+      thead
+        tr
+          th Sun
+          th Mon
+          th Tue
+          th Wed
+          th Thu
+          th Fri
+          th Sat
+      tbody#calendar-body
+        tr
+          td(data-day="") 
+          td(data-day="") 
+          td(data-day="1") 1
+          td(data-day="2") 2
+          td(data-day="3") 3
+          td(data-day="4") 4
+          td(data-day="5") 5
+        tr
+          td(data-day="6") 6
+          td(data-day="7") 7
+          td(data-day="8") 8
+          td(data-day="9") 9
+          td(data-day="10") 10
+          td(data-day="11") 11
+          td(data-day="12") 12
+        tr
+          td(data-day="13") 13
+          td(data-day="14") 14
+          td(data-day="15") 15
+          td(data-day="16") 16
+          td(data-day="17") 17
+          td(data-day="18") 18
+          td(data-day="19") 19
+        tr
+          td(data-day="20") 20
+          td(data-day="21") 21
+          td(data-day="22") 22
+          td(data-day="23") 23
+          td(data-day="24") 24
+          td(data-day="25") 25
+          td(data-day="26") 26
+        tr
+          td(data-day="27") 27
+          td(data-day="28") 28
+          td(data-day="29") 29
+          td(data-day="30") 30
+          td(data-day="31") 31
+          td(data-day="") 
+          td(data-day="")
+
+    // Event Input Form
+    form#eventForm
+      label(for="eventDate") Event Date:
+      input(type="text", id="eventDate", name="eventDate", readonly)
+      br
+      label(for="eventDescription") Event Description:
+      input(type="text", id="eventDescription", name="eventDescription")
+      button(type="button", id="saveEventBtn") Save Event
+
+    // Script for Event Input and Handling
+    script.
+      document.addEventListener("DOMContentLoaded", function() {
+        // Get all day cells
+        var dayCells = document.querySelectorAll("#calendar-body td[data-day]");
+
+        // Add event listener to each day cell
+        dayCells.forEach(function(cell) {
+          cell.addEventListener("click", function() {
+            var selectedDate = this.dataset.day;
+            document.getElementById("eventDate").value = selectedDate;
+          });
+        });
+
+        // Save Event Button Click Event
+        document.getElementById("saveEventBtn").addEventListener("click", function() {
+          var eventDate = document.getElementById("eventDate").value;
+          var eventDescription = document.getElementById("eventDescription").value;
+
+          if (eventDate && eventDescription) {
+            // Find the corresponding day cell
+            var dayCell = document.querySelector(`#calendar-body td[data-day="${eventDate}"]`);
+
+            // Create a new event element
+            var eventElement = document.createElement("div");
+            eventElement.textContent = eventDescription;
+
+            // Append event to the day cell
+            dayCell.appendChild(eventElement);
+
+            // Clear input fields
+            document.getElementById("eventDate").value = "";
+            document.getElementById("eventDescription").value = "";
+          } else {
+            alert("Please select a date and enter a description for the event.");
+          }
+        });
+      });
