@@ -1,17 +1,14 @@
 ﻿doctype html
-html(lang="en")
+html
   head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Chat Room
-    // Include Bootstrap CSS
-    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css")
+   
+    meta(charset="utf-8")
     meta(content="IE=edge" http-equiv="X-UA-Compatible")
     meta(content="width=device-width, initial-scale=1.0" name="viewport")
     meta(content="" name="description")
     meta(content="" name="author")
 
-    title RANIA Messages
+    title RANIA CHATROOM
 
     link(href="../../public/stylesheets/dashboard.css" rel="stylesheet")
     link(href="../../public/stylesheets/button.css" rel="stylesheet")
@@ -31,20 +28,7 @@ html(lang="en")
     link(href="../../public/stylesheets/link.css" rel="stylesheet")
     script(type='module' src="../../public/scripts/Dashboard/dashboard.js")
     script(src='https://d3js.org/d3.v7.min.js')
-    // Custom CSS for chat styling
-    style.
-      /* Chat container styles */
-      #chat-container {
-          background-color: #464646; /* Yellow background */
-          padding: 20px;
-          border-radius: 10px;
-          overflow-y: auto;
-          height: fluid;
-      }
-       #chat-input {
-          width: 94%; /* Make input span the width of the container */
-          resize: vertical; /* Allow vertical resizing */
-      }
+
   body.sb-nav-fixed
     #layoutSidenav
       .mobile-menu
@@ -69,7 +53,7 @@ html(lang="en")
               a.nav-link(href="/dashboard") Dashboard
               a.nav-link(href="/questions") Ask a Question 
               a.nav-link(href="/calendar") Calendar
-              a.nav-link(href="/Messages") Messages
+              a.nav-link(href="/messages") Messages
               a.nav-link(href="/reminders") Reminders
               a.nav-link(href="/settings") Settings
               //- a.nav-link(href="/devices") Manage Devices
@@ -80,19 +64,16 @@ html(lang="en")
             | UserName
             button.db-button(type='button' onclick="window.location.href='/'") logout
       div(id="layoutSidenav_content")
-  main
-    
-    .container.mt-5.fluid
-      .card
-        .card-body#chat-container
-          // Chat messages will appear here
-        .card-footer
-          input.form-control(type="text", id="chat-input", placeholder="Type your message...")
-          button.btn.btn-primary.mt-2(onclick="sendMessage()") Send
-          
+        main
+                
+            // Display area for results
+            div#chat-container(style='overflow-y: scroll; height: 725px; padding: 10px;')
 
-    // Include Bootstrap JS (optional)
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js")
+            div#chatContainer(style='position: fixed; bottom: 0; left: 30; width: 90%; padding: 10px; background-color: #f0f0f0;')
+                // Input form
+                input(type='text', id='chat-input', placeholder='Type your message here', style='width: 82%; height: 65px; font-size: 20px;')
+                button(id='submit-button', style='width: 10%; height: 65px; font-size: 20px;', onclick="sendMessage()") Send
+            script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.bundle.min.js")
     script.
       const chatMessages = []; // Array to store chat messages
 
@@ -120,4 +101,3 @@ html(lang="en")
 
       // Initial display of messages
       displayMessages();
-
