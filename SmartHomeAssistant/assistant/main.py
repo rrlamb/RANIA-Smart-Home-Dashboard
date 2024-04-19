@@ -2,7 +2,13 @@ import json
 import websockets
 import pyttsx3
 
-from assistant import listen_wake_word, listen, speech_to_text, send_query
+from assistant import (
+    listen_wake_word,
+    listen,
+    speech_to_text,
+    send_query,
+    send_to_whisper,
+)
 from websocket import run
 
 
@@ -14,10 +20,10 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
             audio = listen()
 
             if audio is not None:
-                print("Processing speech to text")
+                print("Processing speech to text...")
                 await websocket.send(json.dumps({"route": "/response"}))
 
-                query = speech_to_text(audio)
+                query = send_to_whisper(audio)
                 print(f"Asking: {query}")
                 response = None
 
@@ -29,9 +35,9 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
 
                 if response is not None:
                     responseJson = json.loads(response.text)
-                    #engine = pyttsx3.init()
-                    #engine.say(responseJson["response"]["text"])
-                    #engine.runAndWait()
+                    # engine = pyttsx3.init()
+                    # engine.say(responseJson["response"]["text"])
+                    # engine.runAndWait()
                     engine = pyttsx3.init()
                     engine.say(response.txt)
                     engine.runAndWait()
@@ -45,6 +51,7 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
                             }
                         )
                     )
+
 
 if __name__ == "__main__":
     run(producer)

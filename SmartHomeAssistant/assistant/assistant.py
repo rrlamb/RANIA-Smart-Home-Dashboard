@@ -1,5 +1,7 @@
 import os
 import geocoder
+import subprocess
+import json
 
 import google.generativeai as genai
 import google.generativeai.types
@@ -20,7 +22,7 @@ load_dotenv()
 _location = geocoder.ip("me")
 
 # Initialize DuckDuckGo search
-#_search = DuckDuckGoSearchRun()
+# _search = DuckDuckGoSearchRun()
 
 
 # Initialize recognizer and Whisper model
@@ -82,18 +84,59 @@ def listen_wake_word() -> bool:
             return True
 
 
-def listen() -> Optional[sr.AudioData]:
-    with sr.Microphone() as source:
+def listen() -> str:
+    with sr.Microphone(sample_rate=16000) as source:
+        print("Adjusting for ambient noise. Please wait...")
         _recognizer.adjust_for_ambient_noise(source, duration=1)
 
-        print("Listening:")
+        print("Listening for speech:")
 
         try:
-            return _recognizer.listen(source, timeout=8)
+            audio = _recognizer.listen(source, timeout=8)
+            audio_file_path = "user_query.wav"
+            with open(audio_file_path, "wb") as f:
+                f.write(audio.get_wav_data())
+            return audio_file_path
         except sr.WaitTimeoutError:
             print("Timed out waiting for speech")
 
     return None
+
+
+def send_to_whisper(wav_file_path: str) -> Optional[str]:
+    # path to whisper executable
+    whisper_executable = "./whisper.cpp/main"
+
+    # Call whisper.cpp with subprocess
+    result = subprocess.run(
+        [
+            whisper_executable,
+            "-m",
+            "./whisper.cpp/models/ggml-tiny.en-q5_1.bin",
+            "-oj",
+            "-f",
+            wav_file_path,
+        ],
+        capture_output=True,
+        text=True,
+    )
+
+    if result.returncode != 0:
+        print("Error processing audio:", result.stderr)
+        return None
+
+    # Grab output JSON from whisper.cpp and parse it to extract
+    # speech to text result
+    try:
+        with open("./user_query.wav.json", "r") as file:
+            data = json.load(file)
+
+        # Extract text from the first entry in the transcription array
+        transcription_text = data.get("transcription", [{}])[0].get("text", None)
+        return transcription_text
+    except (IOError, json.JSONDecodeError) as e:
+        print("Error reading or parsing JSON file: ", str(e))
+        return None
 
 
 def send_query(
