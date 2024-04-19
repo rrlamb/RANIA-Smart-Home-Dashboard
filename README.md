@@ -9,6 +9,9 @@ Assistant is located in `WVU-RANIA-Dashboard/SmartHomeAssistant` which contains 
 
 ## First time setup
 
+> [!IMPORTANT]  
+> Requires Linux or a UNIX-based OS. If you are running Windows, either use a VM or use WSL.
+
 1. Initialize Python virtual environment once you are located in the `WVU-RANIA-Dashboard/SmartHomeAssistant`
 
 ```bash
@@ -35,3 +38,19 @@ pip3 install -r requirements.txt
 ```bash
 npm install
 ```
+
+6. Navigate to `SmartHomeAssistant/whisper.cpp/`
+
+7. Run `make`
+
+8. Navigate to `SmartHomeAssistant/whisper.cpp/models/`
+
+9. Run `./download-ggml-model.sh tiny.en-q5_1.bin` or a different model if applicable
+
+## How to use
+
+1. Activate virtual environment with `source .venv/bin/activate`
+
+2. Run `python3 main.py` located in `assistant/`
+
+3. Run `npm start` located in `web/`
