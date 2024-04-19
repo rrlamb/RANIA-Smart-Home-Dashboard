@@ -36,9 +36,9 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
                 if response is not None:
                     responseJson = json.loads(response.text)
                     # Windows
-                    engine = pyttsx3.init()
-                    engine.say(responseJson["response"]["text"])
-                    engine.runAndWait()
+                    # engine = pyttsx3.init()
+                    # engine.say(responseJson["response"]["text"])
+                    # engine.runAndWait()
                     # Mac & Linux
                     # engine = pyttsx3.init()
                     # engine.say(response.txt)
