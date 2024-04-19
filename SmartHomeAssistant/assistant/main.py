@@ -35,12 +35,15 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
 
                 if response is not None:
                     responseJson = json.loads(response.text)
-                    # engine = pyttsx3.init()
-                    # engine.say(responseJson["response"]["text"])
-                    # engine.runAndWait()
+                    # Windows
                     engine = pyttsx3.init()
-                    engine.say(response.txt)
+                    engine.say(responseJson["response"]["text"])
                     engine.runAndWait()
+                    # Mac & Linux
+                    # engine = pyttsx3.init()
+                    # engine.say(response.txt)
+                    # engine.runAndWait()
+                    print(responseJson["response"]["text"])
 
                     await websocket.send(
                         json.dumps(

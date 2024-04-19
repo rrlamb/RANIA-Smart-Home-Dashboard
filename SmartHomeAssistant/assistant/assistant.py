@@ -153,8 +153,7 @@ def send_query(
         The location is {_location.address}.
     
         Here are the results of a DuckDuckGo search: ${DDGS().text(f'{query}', 
-                                                                   max_results=1)[0]['body']}
-    
+                                                                   max_results=1)[0]['title']}
         Using what you know and these results, respond to the message below.
         If the DuckDuckGo search does not provide enough information you may
         ignore the results and rely on other messages from this conversation to
