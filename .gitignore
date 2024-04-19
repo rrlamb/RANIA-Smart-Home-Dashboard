@@ -1,6 +1,8 @@
 #
 .env
 .venv
+user_query.wav
+user_query.wav.json
 
 # Logs
 logs
