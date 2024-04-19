@@ -30,6 +30,9 @@ source /path/to/.venv/bin/activate
 pip install -r requirements.txt
 pip3 install -r requirements.txt
 ```
+> [!IMPORTANT]  
+> PyAudio requires portaudio19-dev to work on Linux systems.
+> `sudo apt install portaudio19-dev`
 
 4. Navigate to `SmartHomeAssistant/web/`
 
