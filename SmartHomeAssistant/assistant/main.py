@@ -1,6 +1,7 @@
 import json
 import websockets
-import pyttsx3
+from TTS.api import TTS
+import pygame
 
 from assistant import (
     listen_wake_word,
@@ -35,6 +36,8 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
 
                 if response is not None:
                     responseJson = json.loads(response.text)
+                    tts = TTS(model_name="tts_models/en/ljspeech/glow-tts")
+                    tts.tts_to_file(text=responseJson["response"]["text"])
                     # Windows
                     # engine = pyttsx3.init()
                     # engine.say(responseJson["response"]["text"])
@@ -44,6 +47,8 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
                     # engine.say(response.txt)
                     # engine.runAndWait()
                     print(responseJson["response"]["text"])
+                    my_sound = pygame.mixer.Sound("output.wav")
+                    my_sound.play()
 
                     await websocket.send(
                         json.dumps(
@@ -57,4 +62,5 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
 
 
 if __name__ == "__main__":
+    pygame.init()
     run(producer)
