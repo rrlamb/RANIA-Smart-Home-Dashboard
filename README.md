@@ -11,28 +11,30 @@ Assistant is located in `WVU-RANIA-Dashboard/SmartHomeAssistant` which contains 
 
 > [!IMPORTANT]  
 > Requires Linux or a UNIX-based OS. If you are running Windows, either use a VM or use WSL.
+> Tested on Debian-based distros (Ubuntu, Raspberry Pi OS).
+> Debian-based distros are **HIGHLY RECOMMENDED**
 
-1. Initialize Python virtual environment once you are located in the `WVU-RANIA-Dashboard/SmartHomeAssistant`
-
+1. Install [Miniforge3](https://github.com/conda-forge/miniforge)
+2. Install OpenBLAS and dependencies for Whisper.cpp
 ```bash
-python -m venv ./.venv/
+sudo apt-get install g++ cmake libopenblas-dev
 ```
-
-2. Activate virtual environment
-
+3. Configure conda environment
 ```bash
-source /path/to/.venv/bin/activate
+conda env create -f environment.yaml
 ```
+> [!NOTE]
+> If running on an ARM CPU, run `conda env create -f armenv.yaml` instead
 
-3. Install required packages
-
+4. Activate conda environment
 ```bash
-pip install -r requirements.txt
-pip3 install -r requirements.txt
+conda activate rania
 ```
 > [!IMPORTANT]  
-> PyAudio requires portaudio19-dev to work on Linux systems.
-> `sudo apt install portaudio19-dev`
+> PyAudio and PocketSphinx require portaudio19-dev, pulseaudio, swig, and libpulse-dev to work properly
+```bash
+sudo apt install portaudio19-dev pulseaudio swig libpulse-dev
+```
 
 4. Navigate to `SmartHomeAssistant/web/`
 
@@ -44,15 +46,18 @@ npm install
 
 6. Navigate to `SmartHomeAssistant/whisper.cpp/`
 
-7. Run `make`
-
+7. Compile whisper.cpp with [OpenBLAS](https://github.com/ggerganov/whisper.cpp?tab=readme-ov-file#blas-cpu-support-via-openblas)
+```bash
+make clean
+WHISPER_OPENBLAS=1 make -j
+```
 8. Navigate to `SmartHomeAssistant/whisper.cpp/models/`
 
 9. Run `./download-ggml-model.sh tiny.en-q5_1.bin` or a different model if applicable
 
 ## How to use
 
-1. Activate virtual environment with `source .venv/bin/activate`
+1. Activate virtual environment with `conda activate rania`
 
 2. Run `python3 main.py` located in `assistant/`
 
