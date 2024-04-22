@@ -38,7 +38,7 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
 
                 if response is not None:
                     responseJson = json.loads(response.text)
-                    tts = TTS(model_name="tts_models/en/ljspeech/glow-tts")
+                    tts = TTS(model_name="tts_models/en/ljspeech/speedy-speech")
                     tts.tts_to_file(text=responseJson["response"]["text"])
                     # Windows
                     # engine = pyttsx3.init()
