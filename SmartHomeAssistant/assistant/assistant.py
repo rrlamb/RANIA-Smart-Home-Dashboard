@@ -142,6 +142,7 @@ def send_to_whisper(wav_file_path: str) -> Optional[str]:
 def send_query(
     query: str,
 ) -> Optional[google.generativeai.types.GenerateContentResponse]:
+    print(f"Results of DuckDuckGo search: ${DDGS().text(f'{query}', max_results=1)[0]['title']}")
     prompt = f"""
         You will receive a query that you must answer as effectively as possible.
         Your answer will be based on the current date, the current time, 
@@ -152,8 +153,12 @@ def send_query(
     
         The location is {_location.address}.
     
-        Here are the results of a DuckDuckGo search: ${DDGS().text(f'{query}', 
-                                                                   max_results=1)[0]['title']}
+        Here are the results of a DuckDuckGo search: ${DDGS().text(f'{query}', max_results=1)[0]['title']}
+
+        If you are asked about the weather, use the DuckDuckGo search
+        results above and the location to answer the weather related question to the best
+        of your ability.
+
         Using what you know and these results, respond to the message below.
         If the DuckDuckGo search does not provide enough information you may
         ignore the results and rely on other messages from this conversation to
