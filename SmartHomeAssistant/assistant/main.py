@@ -2,6 +2,8 @@ import json
 import websockets
 from TTS.api import TTS
 import pygame
+import librosa
+import time
 
 from assistant import (
     listen_wake_word,
@@ -55,10 +57,11 @@ async def producer(websocket: websockets.WebSocketServerProtocol) -> None:
                             {
                                 "text": responseJson["response"]["text"],
                                 "route": "/",
-                                "waittime": 2,
+                                "waittime": librosa.get_duration(filename="output.wav") + 3.0
                             }
                         )
                     )
+                    time.sleep(librosa.get_duration(filename="output.wav") + 3.0)
 
 
 if __name__ == "__main__":
