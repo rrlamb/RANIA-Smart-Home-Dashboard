@@ -78,44 +78,68 @@ html
       const chatMessages = []; // Array to store chat messages
           
       // Function to display messages in the chat container
-      function displayMessages() {
-          const chatContainer = document.getElementById('chat-container');
-            chatContainer.innerHTML = '';
-            // Predefined messages for the demo
-            const demoMessages = [
-                "User1: Hello!",
-                "User2: Hi there!",
-                "User1: How are you?",
-                "User2: I'm doing well, thanks. How about you?",
-                "User1: I'm great, thanks for asking!",
-                // Add more predefined messages as needed
-            ];
+      function displayDemoMessages() {
+        const chatContainer = document.getElementById('chat-container')
+        // Predefined messages for the demo
+        const demoMessages = [
+                  { user: "User1", message: "Hello!" },
+                  { user: "User2", message: "Hi there!" },
+                  { user: "User1", message: "How are you?" },
+                  { user: "User2", message: "I'm doing well, thanks. How about you?" },
+                  { user: "User1", message: "I'm great, thanks for asking!" }
+              ];
 
-            // Display predefined messages
-            demoMessages.forEach(message => {
-                const p = document.createElement('p');
-                p.textContent = message;
-                chatContainer.appendChild(p);
-          });
-          chatMessages.forEach(message => {
+              // Display predefined messages
+              demoMessages.forEach(({ user, message }) => {
+                  const p = document.createElement('p');
+                  p.textContent = `${user}: ${message}`;
+                  chatContainer.appendChild(p);
+              });
+      }
+
+      function displayReplyMessages(){
+        const chatContainer = document.getElementById('chat-container');
+
+          const replyMessages = [
+              { user: "User1", message: "I should be!" },
+              { user: "User2", message: "No, I have work :(" }
+          ];
+
+          // Display reply messages
+          replyMessages.forEach(({ user, message }) => {
               const p = document.createElement('p');
-              p.textContent = message;
+              p.textContent = `${user}: ${message}`;
               chatContainer.appendChild(p);
           });
-       
-          
       }
+
+      function displayMessages() {
+        const chatContainer = document.getElementById('chat-container');
+       // chatContainer.innerHTML = '';
+
+        // Display chatMessages
+        chatMessages.forEach(message => {
+            const p = document.createElement('p');
+            p.textContent = message;
+            chatContainer.appendChild(p);
+        });
+        }
 
       // Function to handle sending a message
       function sendMessage() {
-          const input = document.getElementById('chat-input');
-          const message = input.value.trim();
-          if (message) {
-              chatMessages.push("UserName: "+ message);
-              input.value = '';
-              displayMessages();
-          }
+        const input = document.getElementById('chat-input');
+        const message = input.value.trim();
+        if (message) {
+            chatMessages.push("UserName: " + message);
+            input.value = '';
+            displayMessages(); // Display messages after sending a new message
+
+            // Display replyMessages after sending a message
+            setTimeout(() => {
+                displayReplyMessages();
+            }, 2000); // Adjust the delay as needed (in milliseconds)
+        }
       }
 
       // Initial display of messages
-      displayMessages();
+      displayDemoMessages();
